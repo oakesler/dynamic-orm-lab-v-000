@@ -1,5 +1,6 @@
 require_relative "../config/environment.rb"
 require 'active_support/inflector'
+require 'pry'
 
 class InteractiveRecord
 
@@ -52,17 +53,37 @@ class InteractiveRecord
     sql = "SELECT * FROM #{self.table_name} WHERE name = ?"
     DB[:conn].execute(sql, name)
   end
+  
+  binding.pry
 
-  def self.find_by(attribute: )
+  def self.find_by(attribute:)
+    column = attribute.fetch(key_name)
+    table = self.table_name
+    sql = "SELECT * FROM ? WHERE ? = ?"
+    DB[:conn].execute(sql, table, column, attribute)
+  end
+end
+    
+    
+    
+    
+    
+    #if attribute.class = Integer 
+      #sql = "SELECT * FROM #{self.table_name} WHERE #{attribute} = ?"
+    #DB[:conn].execute(sql, attribute)
+    #if attribute.class 
+    #sql = "SELECT * FROM #{self.table_name} WHERE ? = ?"
+    #DB[:conn].execute(sql, attribute)
+    
+    
+    
     #temp_array = []
     #self.column_names.each do |column|
     #if attribute.fetch('key', nil) == column
       #temp_array << column 
       #end 
-    value = attribute
-    table = self.table_name_for_insert
-    column = attribute.fetch('key', nil)
-    sql = "SELECT * FROM ? WHERE ? = ?"
-    DB[:conn].execute(sql, table, column, attribute.value)
-  end
-end
+    #table = self.class.table_name
+    #column = attribute.fetch('key', nil)
+    #sql = "SELECT * FROM ? WHERE ? = ?"
+    #DB[:conn].execute(sql, table, column, attribute.value)
+ 
