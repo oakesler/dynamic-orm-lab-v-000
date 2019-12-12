@@ -48,22 +48,21 @@ class InteractiveRecord
     self.class.column_names.delete_if {|col| col == "id"}.join(", ")
   end
 
-def self.find_by_name(name)
-  sql = "SELECT * FROM #{self.table_name} WHERE name = ?"
-  DB[:conn].execute(sql, name)
-end
+  def self.find_by_name(name)
+    sql = "SELECT * FROM #{self.table_name} WHERE name = ?"
+    DB[:conn].execute(sql, name)
+  end
 
-def self.find_by(attribute: )
-  #temp_array = []
-  #self.column_names.each do |column|
+  def self.find_by(attribute: )
+    #temp_array = []
+    #self.column_names.each do |column|
     #if attribute.fetch('key', nil) == column
       #temp_array << column 
-    #end 
-  value = 
-  table = self.table_name_for_insert
-  column = attribute.fetch('key', nil)
-  sql = "SELECT * FROM ? WHERE ? = ?"
-  DB[:conn].execute(sql, table, column, attribute.value)
-      
-  
+      #end 
+    value = attribute
+    table = self.table_name_for_insert
+    column = attribute.fetch('key', nil)
+    sql = "SELECT * FROM ? WHERE ? = ?"
+    DB[:conn].execute(sql, table, column, attribute.value)
+  end
 end
