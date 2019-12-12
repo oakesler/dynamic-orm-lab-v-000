@@ -54,6 +54,16 @@ def self.find_by_name(name)
 end
 
 def self.find_by(attribute: )
-  if 
+  #temp_array = []
+  #self.column_names.each do |column|
+    #if attribute.fetch('key', nil) == column
+      #temp_array << column 
+    #end 
+  value = 
+  table = self.table_name_for_insert
+  column = attribute.fetch('key', nil)
+  sql = "SELECT * FROM ? WHERE ? = ?"
+  DB[:conn].execute(sql, table, column, attribute.value)
+      
   
 end
