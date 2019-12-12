@@ -1,10 +1,12 @@
 require_relative "../config/environment.rb"
 require 'active_support/inflector'
+require 'pry'
 
 class InteractiveRecord
 
   def self.table_name
     self.to_s.downcase.pluralize
+    #self.to_s.downcase
   end
 
   def self.column_names
@@ -52,49 +54,28 @@ class InteractiveRecord
     sql = "SELECT * FROM #{self.table_name} WHERE name = ?"
     DB[:conn].execute(sql, name)
   end
+  
 
+  
   def self.find_by(input={})
+    #binding.pry
     table = self.table_name
     column_array = []
     value_array = []
-    input.each do |column, value|
-      column_array << column 
-      value_array << value
+    input.each do |a, b|
+      column_array << a
+      value_array << b
     end
-    column = column_array[0]
-    value = value_array[0]
-    sql = "SELECT * FROM #{table} WHERE #{column} = #{value}"
+    column = "#{column_array[0]}".scan(/\w/).join
+    if value_array[0].class == Integer
+      value = value_array[0]
+    else 
+      value = "#{value_array[0]}"
+    end
+    sql = "SELECT * FROM #{table} WHERE #{column} = '#{value}'"
     DB[:conn].execute(sql)
   end
 end
-    #column = attribute.fetch(key_name)
-    #table = self.table_name
-    #value = attribute.fetch("#{column}") 
-    #sql = "SELECT * FROM ? WHERE ? = ?"
-    #DB[:conn].execute(sql, table, column, value)
-  #end
-#end
     
     
     
-    
-    
-    #if attribute.class = Integer 
-      #sql = "SELECT * FROM #{self.table_name} WHERE #{attribute} = ?"
-    #DB[:conn].execute(sql, attribute)
-    #if attribute.class 
-    #sql = "SELECT * FROM #{self.table_name} WHERE ? = ?"
-    #DB[:conn].execute(sql, attribute)
-    
-    
-    
-    #temp_array = []
-    #self.column_names.each do |column|
-    #if attribute.fetch('key', nil) == column
-      #temp_array << column 
-      #end 
-    #table = self.class.table_name
-    #column = attribute.fetch('key', nil)
-    #sql = "SELECT * FROM ? WHERE ? = ?"
-    #DB[:conn].execute(sql, table, column, attribute.value)
- 
